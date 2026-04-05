@@ -1,0 +1,26 @@
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  email VARCHAR(255) NOT NULL UNIQUE
+);
+
+CREATE TABLE subscriptions (
+  id SERIAL PRIMARY KEY,
+  user_id INT NOT NULL,
+  status VARCHAR(50) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+
+  CONSTRAINT fk_user
+    FOREIGN KEY(user_id)
+    REFERENCES users(id)
+);
+
+CREATE TABLE invoices (
+  id SERIAL PRIMARY KEY,
+  user_id INT NOT NULL,
+  amount DECIMAL(10,2) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+
+  CONSTRAINT fk_invoice_user
+    FOREIGN KEY(user_id)
+    REFERENCES users(id)
+);
