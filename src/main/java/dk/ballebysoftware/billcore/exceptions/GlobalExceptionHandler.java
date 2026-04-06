@@ -1,4 +1,4 @@
-package dk.ballebysoftware.billcore.user;
+package dk.ballebysoftware.billcore.exceptions;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -9,15 +9,11 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import dk.ballebysoftware.billcore.exceptions.DuplicateUserException;
-import dk.ballebysoftware.billcore.exceptions.SubscriptionAlreadyCancelledException;
-import dk.ballebysoftware.billcore.exceptions.UserNotFoundException;
 import dk.ballebysoftware.billcore.model.ErrorResponse;
 import dk.ballebysoftware.billcore.model.FieldErrorResponse;
 
-/* TODO: Refactor to global handler */
 @RestControllerAdvice
-public class UserAdvice {
+public class GlobalExceptionHandler {
   
   @ExceptionHandler(UserNotFoundException.class)
   public ResponseEntity<ErrorResponse> handleUserNotFound(UserNotFoundException ex) {
@@ -78,6 +74,20 @@ public class UserAdvice {
       LocalDateTime.now(), 
       status.value(),
       "SUBSCRIPTION_ALREADY_CANCELLED",
+      ex.getMessage()
+    );
+
+    return ResponseEntity.status(status).body(response);
+  }
+
+  @ExceptionHandler(SubscriptionNotFoundException.class)
+  public ResponseEntity<ErrorResponse> handleSubscriptionNotFound(SubscriptionNotFoundException ex) {
+    HttpStatus status = HttpStatus.NOT_FOUND;
+
+    ErrorResponse response = new ErrorResponse(
+      LocalDateTime.now(), 
+      status.value(),
+      "SUBSCRIPTION_NOT_FOUND",
       ex.getMessage()
     );
 

@@ -22,6 +22,11 @@ public class SubscriptionController {
     this.service = service;
   }
 
+  @GetMapping
+  public Iterable<Subscription> getAllSubscriptions() {
+    return service.getAllSubscriptions();
+  }
+
   @GetMapping("/{id}")
   public Subscription getSubscription(@PathVariable Long id) {
     return service.getSubscriptionById(id);
