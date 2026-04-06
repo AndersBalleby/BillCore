@@ -5,7 +5,7 @@ CREATE TABLE users (
 
 CREATE TABLE subscriptions (
   id BIGSERIAL PRIMARY KEY,
-  user_id INT NOT NULL,
+  user_id BIGINT NOT NULL,
   status VARCHAR(50) NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
 
