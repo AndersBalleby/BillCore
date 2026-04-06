@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import dk.ballebysoftware.billcore.exceptions.DuplicateUserException;
+import dk.ballebysoftware.billcore.exceptions.SubscriptionAlreadyCancelledException;
 import dk.ballebysoftware.billcore.exceptions.UserNotFoundException;
 import dk.ballebysoftware.billcore.model.ErrorResponse;
 import dk.ballebysoftware.billcore.model.FieldErrorResponse;
 
+/* TODO: Refactor to global handler */
 @RestControllerAdvice
 public class UserAdvice {
   
@@ -63,6 +65,20 @@ public class UserAdvice {
       "VALIDATION_ERROR",
       "Invalid request data",
       errors
+    );
+
+    return ResponseEntity.status(status).body(response);
+  }
+
+  @ExceptionHandler(SubscriptionAlreadyCancelledException.class)
+  public ResponseEntity<ErrorResponse> handleSubscriptionAlreadyCancelled(SubscriptionAlreadyCancelledException ex) {
+    HttpStatus status = HttpStatus.CONFLICT;
+
+    ErrorResponse response = new ErrorResponse(
+      LocalDateTime.now(), 
+      status.value(),
+      "SUBSCRIPTION_ALREADY_CANCELLED",
+      ex.getMessage()
     );
 
     return ResponseEntity.status(status).body(response);

@@ -3,6 +3,8 @@ package dk.ballebysoftware.billcore.subscription;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
+
+import dk.ballebysoftware.billcore.exceptions.SubscriptionAlreadyCancelledException;
 import dk.ballebysoftware.billcore.user.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -44,6 +46,10 @@ public class Subscription {
 
   /* TODO: Check if subscription is already cancelled? */
   public void cancel() {
+    if(this.status == SubscriptionStatus.CANCELLED) {
+      throw new SubscriptionAlreadyCancelledException(id);
+    }
+    
     this.status = SubscriptionStatus.CANCELLED;
   }
 

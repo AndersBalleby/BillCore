@@ -16,7 +16,7 @@ CREATE TABLE subscriptions (
 
 CREATE TABLE invoices (
   id BIGSERIAL PRIMARY KEY,
-  user_id INT NOT NULL,
+  user_id BIGINT NOT NULL,
   amount DECIMAL(10,2) NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
 
