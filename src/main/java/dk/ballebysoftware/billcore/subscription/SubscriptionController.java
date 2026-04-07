@@ -22,6 +22,7 @@ public class SubscriptionController {
     this.service = service;
   }
 
+  /* TODO: Add Pagination */
   @GetMapping
   public Iterable<Subscription> getAllSubscriptions() {
     return service.getAllSubscriptions();

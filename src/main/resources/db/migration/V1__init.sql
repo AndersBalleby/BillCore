@@ -16,11 +16,13 @@ CREATE TABLE subscriptions (
 
 CREATE TABLE invoices (
   id BIGSERIAL PRIMARY KEY,
-  user_id BIGINT NOT NULL,
+  subscription_id BIGINT NOT NULL,
   amount DECIMAL(10,2) NOT NULL,
+  period_start TIMESTAMP NOT NULL,
+  period_end TIMESTAMP NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
 
-  CONSTRAINT fk_invoice_user
-    FOREIGN KEY(user_id)
-    REFERENCES users(id)
+  CONSTRAINT fk_invoice_subscription
+    FOREIGN KEY(subscription_id)
+    REFERENCES subscriptions(id)
 );

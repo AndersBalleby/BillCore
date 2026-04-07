@@ -23,6 +23,7 @@ public class UserController {
     this.service = service;
   }
 
+  /* TODO: Add pagination */
   @GetMapping
   public Iterable<User> all() {
     return service.getAllUsers();
