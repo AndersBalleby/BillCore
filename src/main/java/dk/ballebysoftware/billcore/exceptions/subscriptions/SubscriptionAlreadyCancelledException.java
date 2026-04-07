@@ -1,4 +1,4 @@
-package dk.ballebysoftware.billcore.exceptions;
+package dk.ballebysoftware.billcore.exceptions.subscriptions;
 
 public class SubscriptionAlreadyCancelledException extends RuntimeException {
   public SubscriptionAlreadyCancelledException(Long id) {

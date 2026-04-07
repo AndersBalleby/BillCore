@@ -1,4 +1,4 @@
-package dk.ballebysoftware.billcore.exceptions;
+package dk.ballebysoftware.billcore.exceptions.user;
 
 public class UserNotFoundException extends RuntimeException {
   public UserNotFoundException(Long id) {

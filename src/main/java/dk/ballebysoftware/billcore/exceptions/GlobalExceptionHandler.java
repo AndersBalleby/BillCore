@@ -9,8 +9,12 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import dk.ballebysoftware.billcore.model.ErrorResponse;
-import dk.ballebysoftware.billcore.model.FieldErrorResponse;
+import dk.ballebysoftware.billcore.api.error.ErrorResponse;
+import dk.ballebysoftware.billcore.api.error.FieldErrorResponse;
+import dk.ballebysoftware.billcore.exceptions.subscriptions.SubscriptionAlreadyCancelledException;
+import dk.ballebysoftware.billcore.exceptions.subscriptions.SubscriptionNotFoundException;
+import dk.ballebysoftware.billcore.exceptions.user.DuplicateUserException;
+import dk.ballebysoftware.billcore.exceptions.user.UserNotFoundException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

@@ -2,8 +2,8 @@ package dk.ballebysoftware.billcore.user;
 
 import org.springframework.stereotype.Service;
 
-import dk.ballebysoftware.billcore.exceptions.DuplicateUserException;
-import dk.ballebysoftware.billcore.exceptions.UserNotFoundException;
+import dk.ballebysoftware.billcore.exceptions.user.DuplicateUserException;
+import dk.ballebysoftware.billcore.exceptions.user.UserNotFoundException;
 
 @Service
 public class UserService {

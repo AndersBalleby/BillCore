@@ -1,4 +1,4 @@
-package dk.ballebysoftware.billcore.exceptions;
+package dk.ballebysoftware.billcore.exceptions.user;
 
 public class DuplicateUserException extends RuntimeException {
   public DuplicateUserException(String email) {

@@ -3,8 +3,8 @@ package dk.ballebysoftware.billcore.subscription;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import dk.ballebysoftware.billcore.exceptions.SubscriptionNotFoundException;
-import dk.ballebysoftware.billcore.exceptions.UserNotFoundException;
+import dk.ballebysoftware.billcore.exceptions.subscriptions.SubscriptionNotFoundException;
+import dk.ballebysoftware.billcore.exceptions.user.UserNotFoundException;
 import dk.ballebysoftware.billcore.user.User;
 import dk.ballebysoftware.billcore.user.UserRepository;
 

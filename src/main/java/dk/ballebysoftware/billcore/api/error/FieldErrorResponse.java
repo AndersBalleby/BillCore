@@ -1,4 +1,4 @@
-package dk.ballebysoftware.billcore.model;
+package dk.ballebysoftware.billcore.api.error;
 
 public class FieldErrorResponse {
   private String field;

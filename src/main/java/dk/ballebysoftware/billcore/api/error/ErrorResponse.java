@@ -1,4 +1,4 @@
-package dk.ballebysoftware.billcore.model;
+package dk.ballebysoftware.billcore.api.error;
 
 import java.time.LocalDateTime;
 import java.util.List;

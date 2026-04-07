@@ -1,4 +1,4 @@
-package dk.ballebysoftware.billcore.exceptions;
+package dk.ballebysoftware.billcore.exceptions.subscriptions;
 
 public class SubscriptionNotFoundException extends RuntimeException {
   public SubscriptionNotFoundException(Long id) {

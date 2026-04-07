@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import dk.ballebysoftware.billcore.exceptions.SubscriptionAlreadyCancelledException;
+import dk.ballebysoftware.billcore.exceptions.subscriptions.SubscriptionAlreadyCancelledException;
 import dk.ballebysoftware.billcore.user.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -49,7 +49,7 @@ public class Subscription {
     if(this.status == SubscriptionStatus.CANCELLED) {
       throw new SubscriptionAlreadyCancelledException(id);
     }
-    
+
     this.status = SubscriptionStatus.CANCELLED;
   }
 
