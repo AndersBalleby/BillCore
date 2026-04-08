@@ -2,6 +2,7 @@ package dk.ballebysoftware.billcore.subscription;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +11,8 @@ import dk.ballebysoftware.billcore.exceptions.subscriptions.SubscriptionNotFound
 import dk.ballebysoftware.billcore.exceptions.user.UserNotFoundException;
 import dk.ballebysoftware.billcore.invoices.Invoice;
 import dk.ballebysoftware.billcore.invoices.InvoiceRepository;
+import dk.ballebysoftware.billcore.subscription.dto.CreateSubscriptionRequest;
+import dk.ballebysoftware.billcore.subscription.dto.SubscriptionResponse;
 import dk.ballebysoftware.billcore.user.User;
 import dk.ballebysoftware.billcore.user.UserRepository;
 
@@ -28,31 +31,28 @@ public class SubscriptionService {
     this.invoiceRepository = invoiceRepository;
   }
   
-  public Iterable<Subscription> getAllSubscriptions() {
-    return repository.findAll();
+  public Iterable<SubscriptionResponse> getAllSubscriptions() {
+    return repository.findAll()
+    .stream()
+    .map(this::mapToResponse)
+    .toList();
   }
 
-  public Subscription getSubscriptionById(Long id) {
-    return repository.findById(id).orElseThrow(() -> new SubscriptionNotFoundException(id));
+  public SubscriptionResponse getSubscriptionById(Long id) {
+    Subscription subscription = repository.findById(id).orElseThrow(() -> new SubscriptionNotFoundException(id));
+
+    return mapToResponse(subscription);
   }
 
   @Transactional
-  public Subscription createSubscription(CreateSubscriptionRequest request) {
+  public SubscriptionResponse createSubscription(CreateSubscriptionRequest request) {
     User user = userRepository.findById(request.getUserId()).orElseThrow(() -> new UserNotFoundException(request.getUserId()));
 
     Subscription subscription = repository.save(new Subscription(user));
     Invoice invoice = createInitialinvoice(subscription);
     invoiceRepository.save(invoice);
 
-    return subscription;
-  }
-
-  private Invoice createInitialinvoice(Subscription subscription) {
-    final LocalDateTime periodStart = LocalDateTime.now();
-    final LocalDateTime periodEnd = periodStart.plusMonths(1);
-    Invoice invoice = new Invoice(subscription, DEFAULT_PRICE, periodStart, periodEnd);
-
-    return invoice;
+    return mapToResponse(subscription);
   }
 
   public void deleteSubscription(Long id) {
@@ -68,9 +68,37 @@ public class SubscriptionService {
     sub.cancel();
   }
 
+  /* TODO: Better performance */
+  @Transactional
   public void generateMonthlyInvoices() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'generateMonthlyInvoices'");
+    List<Subscription> activeSubscriptions = repository.findByStatus(SubscriptionStatus.ACTIVE);
+
+    final LocalDateTime now = LocalDateTime.now();
+    final LocalDateTime periodStart = now.withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
+    final LocalDateTime periodEnd = periodStart.plusMonths(1);
+
+    for(Subscription subscription : activeSubscriptions) {
+      if(!invoiceRepository.existsBySubscriptionAndPeriodStart(subscription, periodStart)) {
+        invoiceRepository.save(new Invoice(subscription, DEFAULT_PRICE, periodStart, periodEnd));
+      }
+    }
+  }
+
+  private Invoice createInitialinvoice(Subscription subscription) {
+    final LocalDateTime periodStart = LocalDateTime.now();
+    final LocalDateTime periodEnd = periodStart.plusMonths(1);
+    Invoice invoice = new Invoice(subscription, DEFAULT_PRICE, periodStart, periodEnd);
+
+    return invoice;
+  }
+
+  private SubscriptionResponse mapToResponse(Subscription subscription) {
+    return new SubscriptionResponse(
+      subscription.getId(),
+      subscription.getUser().getId(),
+      subscription.getStatus().toString(),
+      subscription.getCreatedAt()
+    );
   }
 
 }

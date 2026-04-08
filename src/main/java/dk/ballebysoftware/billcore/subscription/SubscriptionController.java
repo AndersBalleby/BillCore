@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import dk.ballebysoftware.billcore.subscription.dto.CreateSubscriptionRequest;
+import dk.ballebysoftware.billcore.subscription.dto.SubscriptionResponse;
 import jakarta.validation.Valid;
 
 @RestController
@@ -24,18 +26,18 @@ public class SubscriptionController {
 
   /* TODO: Add Pagination */
   @GetMapping
-  public Iterable<Subscription> getAllSubscriptions() {
+  public Iterable<SubscriptionResponse> getAllSubscriptions() {
     return service.getAllSubscriptions();
   }
 
   @GetMapping("/{id}")
-  public Subscription getSubscription(@PathVariable Long id) {
+  public SubscriptionResponse getSubscription(@PathVariable Long id) {
     return service.getSubscriptionById(id);
   }
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public Subscription createSubscription(@RequestBody @Valid CreateSubscriptionRequest request) {
+  public SubscriptionResponse createSubscription(@RequestBody @Valid CreateSubscriptionRequest request) {
     return service.createSubscription(request);
   }
 

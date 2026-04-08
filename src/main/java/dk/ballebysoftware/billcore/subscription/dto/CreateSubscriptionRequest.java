@@ -1,4 +1,4 @@
-package dk.ballebysoftware.billcore.subscription;
+package dk.ballebysoftware.billcore.subscription.dto;
 
 import jakarta.validation.constraints.NotNull;
 

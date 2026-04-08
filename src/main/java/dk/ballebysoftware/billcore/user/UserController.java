@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import dk.ballebysoftware.billcore.user.dto.UserResponse;
 import jakarta.validation.Valid;
 
 
@@ -25,18 +26,18 @@ public class UserController {
 
   /* TODO: Add pagination */
   @GetMapping
-  public Iterable<User> all() {
+  public Iterable<UserResponse> all() {
     return service.getAllUsers();
   }
 
   @GetMapping("/{id}")
-  public User getUser(@PathVariable Long id) {
+  public UserResponse getUser(@PathVariable Long id) {
     return service.getUserById(id);
   }
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public User createUser(@RequestBody @Valid User user) {
+  public UserResponse createUser(@RequestBody @Valid User user) {
     return service.createUser(user);
   }
 

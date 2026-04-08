@@ -14,4 +14,6 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
   List<Invoice> findByPeriodEndBefore(LocalDateTime beforeDate);
 
   boolean existsBySubscriptionAndPeriodStart(Subscription subscription, LocalDateTime periodStart);
+
+  List<Invoice> findBySubscription_UserId(Long userId);
 }
