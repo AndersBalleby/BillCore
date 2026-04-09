@@ -2,6 +2,8 @@ package dk.ballebysoftware.billcore.user;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import dk.ballebysoftware.billcore.exceptions.user.DuplicateUserException;
@@ -17,11 +19,8 @@ public class UserService {
     this.repository = repository;
   } 
 
-  public List<UserResponse> getAllUsers() {
-    return repository.findAll()
-    .stream()
-    .map(this::mapToResponse)
-    .toList();
+  public Page<UserResponse> getAllUsers(Pageable pageable) {
+    return repository.findAll(pageable).map(this::mapToResponse);
   }
 
   public UserResponse getUserById(Long id) {
