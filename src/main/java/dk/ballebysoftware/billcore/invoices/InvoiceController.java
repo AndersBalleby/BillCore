@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dk.ballebysoftware.billcore.invoices.dto.InvoiceResponse;
+import jakarta.validation.constraints.NotBlank;
 
 @RestController
 @RequestMapping("/invoices")
 public class InvoiceController {
-  
   private final InvoiceService service;
 
   public InvoiceController(InvoiceService service) {
@@ -23,7 +23,7 @@ public class InvoiceController {
 
   @GetMapping
   public Page<InvoiceResponse> getInvoices(
-    @RequestParam Long userId,
+    @RequestParam @NotBlank Long userId,
     @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC)
     Pageable pageable) 
   {

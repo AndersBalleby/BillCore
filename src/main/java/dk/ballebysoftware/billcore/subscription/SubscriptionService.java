@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,11 +33,8 @@ public class SubscriptionService {
     this.invoiceRepository = invoiceRepository;
   }
   
-  public Iterable<SubscriptionResponse> getAllSubscriptions() {
-    return repository.findAll()
-    .stream()
-    .map(this::mapToResponse)
-    .toList();
+  public Page<SubscriptionResponse> getAllSubscriptions(Pageable pageable) {
+    return repository.findAll(pageable).map(this::mapToResponse);
   }
 
   public SubscriptionResponse getSubscriptionById(Long id) {
