@@ -12,6 +12,7 @@ public class BillingScheduler {
     this.subscriptionService = subscriptionService;
   }
   
+  /* Generates at the first of each month */
   @Scheduled(cron = "0 0 1 1 * ?")
   public void generateNewInvoices() {
     subscriptionService.generateMonthlyInvoices();

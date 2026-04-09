@@ -9,4 +9,5 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Long
   Subscription findFirstByCreatedAtOrderByCreatedAtDesc(LocalDateTime createdAt);
 
   List<Subscription> findByStatus(SubscriptionStatus status);
+  List<Subscription> findByUserId(Long id);
 }
