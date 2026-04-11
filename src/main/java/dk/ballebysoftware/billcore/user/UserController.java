@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import dk.ballebysoftware.billcore.user.dto.CreateUserRequest;
 import dk.ballebysoftware.billcore.user.dto.UserResponse;
 import jakarta.validation.Valid;
 
@@ -41,8 +42,8 @@ public class UserController {
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public UserResponse createUser(@RequestBody @Valid User user) {
-    return service.createUser(user);
+  public UserResponse createUser(@RequestBody @Valid CreateUserRequest request) {
+    return service.createUser(request);
   }
 
   @DeleteMapping("/{id}")
