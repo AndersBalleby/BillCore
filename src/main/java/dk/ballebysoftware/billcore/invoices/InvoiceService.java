@@ -1,5 +1,7 @@
 package dk.ballebysoftware.billcore.invoices;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +30,7 @@ public class InvoiceService {
       .toList();
   }
 
-  public Page<InvoiceResponse> getInvoicesByUserId(Long id, Pageable pageable) {
+  public Page<InvoiceResponse> getInvoicesWithFilters(Long userId, BigDecimal minAmount, BigDecimal maxAmount, LocalDateTime from, LocalDateTime to, Pageable pageable) {
 
     List<String> allowedSorts = List.of("amount", "createdAt");
     for(Sort.Order order : pageable.getSort()) {
@@ -37,9 +39,19 @@ public class InvoiceService {
       }
     }
 
-    userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+    if(userId != null) {
+      userRepository.findById(userId)
+        .orElseThrow(() -> new UserNotFoundException(userId));
+    }
 
-    return repository.findBySubscription_UserId(id, pageable).map(this::mapToResponse);
+    return repository.findInvoicesWithFilters(
+      userId, 
+      minAmount, 
+      maxAmount, 
+      from, 
+      to, 
+      pageable).map(this::mapToResponse);
+
   }
 
   private InvoiceResponse mapToResponse(Invoice invoice) {
